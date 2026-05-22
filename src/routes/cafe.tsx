@@ -11,11 +11,14 @@ export const Route = createFileRoute("/cafe")({
 });
 
 const MENU = [
-  { id: 1, name: "Nasi Goreng Hotel", price: 45000, img: "https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=800" },
-  { id: 2, name: "Club Sandwich", price: 35000, img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?q=80&w=800" },
-  { id: 3, name: "Teh Tarik", price: 25000, img: "https://images.unsplash.com/photo-1559496417-e7f25cb247f3?q=80&w=800" },
-  { id: 4, name: "Matcha", price: 25000, img: "https://images.unsplash.com/photo-1559496417-e7f25cb247f3?q=80&w=800" },
-  { id: 5, name: "Iced Latte", price: 25000, img: "https://images.unsplash.com/photo-1559496417-e7f25cb247f3?q=80&w=800" },
+  { id: 1, name: "Nasi Goreng Hotel", price: 10000, img: "https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=800" },
+  { id: 2, name: "Ketan Susu", price: 10000, img: "https://cdn.yummy.co.id/content-images/images/20240215/iUPY8nXVP7bSAJx55AYZeZHqNbZ6sDr3-31373037393638393339d41d8cd98f00b204e9800998ecf8427e.jpg?x-oss-process=image/resize,w_388,h_388,m_fixed,x-oss-process=image/format,webp" },
+  { id: 3, name: "Teh Tarik", price: 5000, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTj4QpcU97EMB-JOEz7xpr029_cDTJImucBw&s" },
+  { id: 4, name: "Matcha", price: 5000, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZtWXO4dq5pQmhUUNKv7f5W-ApXc__OVGC4w&s" },
+  { id: 5, name: "Es Kopi", price: 5000, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpMQ4rhoMsysjYMjUJPiQgbOzYzJIPFKLSwA&s" },
+  { id: 6, name: "Pangsit Kuah", price: 10000, img: "https://dcostseafood.id/wp-content/uploads/2025/04/Pangsit-Kuah-600x600.jpg  " },
+  { id: 7, name: "Roti Bakar", price: 10000, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhHiYk9wC9FQ5oTYbOKgSuLdIwuZIuH7_0mQ&s" },
+  { id: 8, name: "Cireng Rujak",   price: 10000, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJRMc241tvxHdczKf63418voGKZjUty1OzLw&s" },
 ];  
 
 // --- DATA LOGO PEMBAYARAN ---
