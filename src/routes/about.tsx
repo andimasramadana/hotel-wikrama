@@ -7,7 +7,11 @@ export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
       { title: "Tentang — Wikrama Hotel Bogor" },
-      { name: "description", content: "Tentang Wikrama Hotel Bogor — penginapan boutique dengan kehangatan keramahan Nusantara." },
+      {
+        name: "description",
+        content:
+          "Tentang Wikrama Hotel Bogor — penginapan boutique dengan kehangatan keramahan Nusantara.",
+      },
     ],
   }),
   component: AboutPage,
@@ -26,23 +30,26 @@ function AboutPage() {
       <section className="py-16 bg-background flex-1">
         <div className="max-w-4xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-start">
           <div className="aspect-[4/5] overflow-hidden rounded-sm shadow-[var(--shadow-soft)]">
-            <img src={heroImg} alt="Wikrama Hotel" loading="lazy" className="w-full h-full object-cover" />
+            <img
+              src={heroImg}
+              alt="Wikrama Hotel"
+              loading="lazy"
+              className="w-full h-full object-cover"
+            />
           </div>
           <div className="space-y-5 text-muted-foreground leading-relaxed">
             <p>
-              Wikrama Hotel berdiri pada tahun 2010 sebagai sebuah penginapan
-              boutique di Bogor — kota yang dikenal dengan hujan, kebun raya,
-              dan kehangatan penduduknya.
+              Wikrama Hotel berdiri pada tahun 2010 sebagai sebuah penginapan boutique di Bogor —
+              kota yang dikenal dengan hujan, kebun raya, dan kehangatan penduduknya.
             </p>
             <p>
-              Filosofi kami sederhana: setiap tamu adalah keluarga. Karena itu,
-              setiap detail di hotel kami — mulai dari pemilihan kopi pagi,
-              tekstur seprai, hingga senyum staf di resepsionis — dirancang
-              untuk membuat Anda merasa diterima.
+              Filosofi kami sederhana: setiap tamu adalah keluarga. Karena itu, setiap detail di
+              hotel kami — mulai dari pemilihan kopi pagi, tekstur seprai, hingga senyum staf di
+              resepsionis — dirancang untuk membuat Anda merasa diterima.
             </p>
             <p>
-              Kami percaya bahwa menginap bukan sekadar tidur di kamar lain,
-              tetapi pengalaman yang membentuk kenangan perjalanan Anda.
+              Kami percaya bahwa menginap bukan sekadar tidur di kamar lain, tetapi pengalaman yang
+              membentuk kenangan perjalanan Anda.
             </p>
           </div>
         </div>

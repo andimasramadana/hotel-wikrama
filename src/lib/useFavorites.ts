@@ -20,13 +20,13 @@ export function useFavorites() {
     setFavorites((prev) => {
       const isFav = prev.includes(id);
       let newFavs;
-      
+
       if (isFav) {
         newFavs = prev.filter((favId) => favId !== id); // Hapus jika sudah ada
       } else {
         newFavs = [...prev, id]; // Tambah jika belum ada
       }
-      
+
       localStorage.setItem("hotel_favorites", JSON.stringify(newFavs));
       return newFavs;
     });

@@ -21,27 +21,52 @@ export function SearchBar() {
       <label className="flex items-center gap-3 px-4 py-3 border-b md:border-b-0 md:border-r border-border">
         <CalendarDays className="w-4 h-4 text-primary" />
         <div className="flex-1">
-          <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Check-in</div>
-          <input type="date" value={checkIn} onChange={(e) => setCheckIn(e.target.value)} className="bg-transparent w-full text-sm outline-none text-foreground" />
+          <div className="text-[10px] uppercase tracking-widest text-muted-foreground">
+            Check-in
+          </div>
+          <input
+            type="date"
+            value={checkIn}
+            onChange={(e) => setCheckIn(e.target.value)}
+            className="bg-transparent w-full text-sm outline-none text-foreground"
+          />
         </div>
       </label>
       <label className="flex items-center gap-3 px-4 py-3 border-b md:border-b-0 md:border-r border-border">
         <CalendarDays className="w-4 h-4 text-primary" />
         <div className="flex-1">
-          <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Check-out</div>
-          <input type="date" value={checkOut} onChange={(e) => setCheckOut(e.target.value)} className="bg-transparent w-full text-sm outline-none text-foreground" />
+          <div className="text-[10px] uppercase tracking-widest text-muted-foreground">
+            Check-out
+          </div>
+          <input
+            type="date"
+            value={checkOut}
+            onChange={(e) => setCheckOut(e.target.value)}
+            className="bg-transparent w-full text-sm outline-none text-foreground"
+          />
         </div>
       </label>
       <label className="flex items-center gap-3 px-4 py-3">
         <Users className="w-4 h-4 text-primary" />
         <div className="flex-1">
           <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Tamu</div>
-          <select value={guests} onChange={(e) => setGuests(Number(e.target.value))} className="bg-transparent w-full text-sm outline-none text-foreground">
-            {[1, 2, 3, 4].map((n) => <option key={n} value={n}>{n} tamu</option>)}
+          <select
+            value={guests}
+            onChange={(e) => setGuests(Number(e.target.value))}
+            className="bg-transparent w-full text-sm outline-none text-foreground"
+          >
+            {[1, 2, 3, 4].map((n) => (
+              <option key={n} value={n}>
+                {n} tamu
+              </option>
+            ))}
           </select>
         </div>
       </label>
-      <button type="submit" className="bg-primary text-primary-foreground px-6 md:px-8 py-4 rounded-sm flex items-center justify-center gap-2 hover:bg-primary/90 transition-colors">
+      <button
+        type="submit"
+        className="bg-primary text-primary-foreground px-6 md:px-8 py-4 rounded-sm flex items-center justify-center gap-2 hover:bg-primary/90 transition-colors"
+      >
         <Search className="w-4 h-4" />
         <span className="text-sm font-medium">Cari Kamar</span>
       </button>

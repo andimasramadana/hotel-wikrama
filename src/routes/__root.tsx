@@ -103,7 +103,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="id"> {/* <-- Diubah jadi 'id' kalau defaultnya bahasa Indonesia */}
+    <html lang="id">
+      {" "}
+      {/* <-- Diubah jadi 'id' kalau defaultnya bahasa Indonesia */}
       <head>
         <HeadContent />
       </head>
