@@ -10,54 +10,63 @@ export const Route = createFileRoute("/cafe")({
   component: CafePage,
 });
 
+// --- DATA MENU DENGAN KATEGORI ---
 const MENU = [
   {
     id: 1,
     name: "Nasi Goreng Hotel",
     price: 10000,
     img: "https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=800",
+    category: "makanan",
   },
   {
     id: 2,
     name: "Ketan Susu",
     price: 10000,
     img: "https://cdn.yummy.co.id/content-images/images/20240215/iUPY8nXVP7bSAJx55AYZeZHqNbZ6sDr3-31373037393638393339d41d8cd98f00b204e9800998ecf8427e.jpg?x-oss-process=image/resize,w_388,h_388,m_fixed,x-oss-process=image/format,webp",
+    category: "makanan",
   },
   {
     id: 3,
     name: "Teh Tarik",
     price: 5000,
     img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTj4QpcU97EMB-JOEz7xpr029_cDTJImucBw&s",
+    category: "minuman",
   },
   {
     id: 4,
     name: "Matcha",
     price: 5000,
     img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZtWXO4dq5pQmhUUNKv7f5W-ApXc__OVGC4w&s",
+    category: "minuman",
   },
   {
     id: 5,
     name: "Es Kopi",
     price: 5000,
     img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpMQ4rhoMsysjYMjUJPiQgbOzYzJIPFKLSwA&s",
+    category: "minuman",
   },
   {
     id: 6,
     name: "Pangsit Kuah",
     price: 10000,
-    img: "https://dcostseafood.id/wp-content/uploads/2025/04/Pangsit-Kuah-600x600.jpg  ",
+    img: "https://dcostseafood.id/wp-content/uploads/2025/04/Pangsit-Kuah-600x600.jpg",
+    category: "makanan",
   },
   {
     id: 7,
     name: "Roti Bakar",
     price: 10000,
     img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhHiYk9wC9FQ5oTYbOKgSuLdIwuZIuH7_0mQ&s",
+    category: "makanan",
   },
   {
     id: 8,
     name: "Cireng Rujak",
     price: 10000,
     img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJRMc241tvxHdczKf63418voGKZjUty1OzLw&s",
+    category: "makanan",
   },
 ];
 
@@ -111,13 +120,20 @@ function CafePage() {
   const [roomNum, setRoomNum] = useState("");
   const [guestName, setGuestName] = useState("");
   const [paymentCategory, setPaymentCategory] = useState<"transfer" | "ewallet" | "card">(
-    "transfer",
+    "transfer"
   );
-  const [selectedProvider, setSelectedProvider] = useState(""); // <-- State untuk nyimpen DANA/BCA
+  const [selectedProvider, setSelectedProvider] = useState(""); 
+  
+  // State baru untuk filter kategori menu
+  const [activeCategory, setActiveCategory] = useState<"makanan" | "minuman">("makanan");
+  
   const [isLoading, setIsLoading] = useState(false);
   const [done, setDone] = useState(false);
 
-  // Reset pilihan provider kalau kategori berubah (misal dari Bank ke E-Wallet)
+  // Filter menu berdasarkan kategori aktif
+  const displayedMenu = MENU.filter((m) => m.category === activeCategory);
+
+  // Reset pilihan provider kalau kategori pembayaran berubah
   useEffect(() => {
     setSelectedProvider("");
   }, [paymentCategory]);
@@ -127,6 +143,23 @@ function CafePage() {
       const ex = prev.find((i) => i.item.id === item.id);
       if (ex) return prev.map((i) => (i.item.id === item.id ? { ...i, qty: i.qty + 1 } : i));
       return [...prev, { item, qty: 1 }];
+    });
+  };
+
+  const removeFromCart = (itemId: number) => {
+    setCart((prev) => {
+      const existingItem = prev.find((i) => i.item.id === itemId);
+      if (!existingItem) return prev; 
+
+      if (existingItem.qty === 1) {
+        // Jika qty sisa 1, hapus item sepenuhnya dari keranjang
+        return prev.filter((i) => i.item.id !== itemId);
+      }
+      
+      // Jika qty > 1, kurangi 1
+      return prev.map((i) =>
+        i.item.id === itemId ? { ...i, qty: i.qty - 1 } : i
+      );
     });
   };
 
@@ -147,7 +180,6 @@ function CafePage() {
           nomor_kamar: roomNum,
           pesanan: cart,
           total_harga: total,
-          // Kirim nama provider yang dipilih ke kolom metode_pembayaran agar aman
           metode_pembayaran: selectedProvider,
         },
       ]);
@@ -201,11 +233,37 @@ function CafePage() {
           className="max-w-5xl mx-auto px-6 grid md:grid-cols-[1fr_360px] gap-10"
         >
           <div className="space-y-12">
-            {/* Menu */}
+            
+            {/* Bagian Menu (Terdapat Tombol Filter) */}
             <div>
-              <h2 className="font-serif text-2xl mb-4">Menu Pilihan</h2>
+              <div className="flex items-center gap-6 mb-6 border-b border-border">
+                <button
+                  type="button"
+                  onClick={() => setActiveCategory("makanan")}
+                  className={`font-serif text-2xl pb-3 transition-colors ${
+                    activeCategory === "makanan"
+                      ? "text-primary border-b-2 border-primary"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  Makanan
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveCategory("minuman")}
+                  className={`font-serif text-2xl pb-3 transition-colors ${
+                    activeCategory === "minuman"
+                      ? "text-primary border-b-2 border-primary"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  Minuman
+                </button>
+              </div>
+
+              {/* Grid Menu yang tampil sesuai kategori aktif */}
               <div className="grid sm:grid-cols-2 gap-4">
-                {MENU.map((m) => (
+                {displayedMenu.map((m) => (
                   <div
                     key={m.id}
                     className="border rounded-sm overflow-hidden flex bg-card border-border hover:border-primary/50 transition-colors"
@@ -286,7 +344,7 @@ function CafePage() {
                 </button>
               </div>
 
-              {/* Logo Provider (DANA, BCA, dll) akan muncul berdasarkan Kategori */}
+              {/* Logo Provider (DANA, BCA, dll) */}
               <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {PAYMENT_PROVIDERS[paymentCategory].map((provider) => (
                   <label
@@ -325,12 +383,37 @@ function CafePage() {
                 </div>
               ) : (
                 cart.map((i) => (
-                  <div key={i.item.id} className="flex justify-between items-start">
-                    <span className="max-w-[180px]">
-                      {i.item.name}{" "}
-                      <span className="text-muted-foreground text-xs ml-1">x{i.qty}</span>
-                    </span>
-                    <span className="font-medium">{formatIDR(i.item.price * i.qty)}</span>
+                  <div key={i.item.id} className="flex justify-between items-center py-1">
+                    <div className="flex flex-col max-w-[140px]">
+                      <span className="font-medium text-sm leading-tight">{i.item.name}</span>
+                      <span className="text-[11px] text-muted-foreground">{formatIDR(i.item.price)}</span>
+                    </div>
+                    
+                    <div className="flex items-center gap-3">
+                      {/* Tombol Plus Minus */}
+                      <div className="flex items-center border border-border rounded-sm bg-background">
+                        <button
+                          type="button"
+                          onClick={() => removeFromCart(i.item.id)}
+                          className="px-2 py-0.5 text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors font-bold"
+                        >
+                          -
+                        </button>
+                        <span className="text-xs font-bold w-4 text-center">{i.qty}</span>
+                        <button
+                          type="button"
+                          onClick={() => addToCart(i.item)}
+                          className="px-2 py-0.5 text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors font-bold"
+                        >
+                          +
+                        </button>
+                      </div>
+                      
+                      {/* Subtotal Item */}
+                      <span className="font-bold text-sm w-[70px] text-right">
+                        {formatIDR(i.item.price * i.qty)}
+                      </span>
+                    </div>
                   </div>
                 ))
               )}

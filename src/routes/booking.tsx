@@ -116,16 +116,22 @@ function BookingPage() {
           jam_checkin: jamCheckin,
           jam_checkout: jamCheckout,
           jumlah_tamu: guests,
-          kamar_id: room.id, // Sekarang akan mengirim angka kembali, tidak akan error
+          kamar_id: room.id, 
           total_harga: total,
           metode_pembayaran: methodName,
         },
       ]);
 
-      if (error) throw error;
+      if (error) {
+        // Jika error berasal dari database (misal tipe data salah atau RLS)
+        throw error;
+      }
+      
       setSubmitted({ code: "WKR-" + Math.random().toString(36).slice(2, 8).toUpperCase() });
     } catch (error: any) {
-      alert("Gagal mengirim data: " + error.message);
+      // Menampilkan detail error di console browser untuk debugging lebih mudah
+      console.error("Detail Error Supabase:", error);
+      alert("Gagal mengirim data: " + error.message + ". Cek console browser untuk detail.");
     } finally {
       setIsLoading(false);
     }
@@ -133,14 +139,13 @@ function BookingPage() {
 
   if (!room) return null;
 
-  // --- TAMPILAN SUKSES (ASLI DARI ANDA) ---
   if (submitted) {
     const provider = PAYMENT_PROVIDERS[paymentProvider];
     return (
       <div className="min-h-screen flex flex-col">
         <SiteHeader />
         <section className="flex-1 flex items-center justify-center py-20 px-6 bg-secondary/40">
-          <div className="max-w-md w-full bg-card border border-border rounded-sm p-8 text-center shadow-[var(--shadow-soft)]">
+          <div className="max-w-md w-full bg-card border border-border rounded-sm p-8 text-center shadow-[var(--shadow-soft)] animate-in zoom-in">
             <CheckCircle2 className="w-12 h-12 text-primary mx-auto mb-4" />
             <h1 className="font-serif text-2xl mb-2">Pemesanan Diterima</h1>
             <p className="text-sm text-muted-foreground mb-6">
@@ -166,7 +171,7 @@ function BookingPage() {
 
             <button
               onClick={() => navigate({ to: "/" })}
-              className="w-full py-3 bg-primary text-primary-foreground rounded-sm text-sm"
+              className="w-full py-3 bg-primary text-primary-foreground rounded-sm text-sm hover:bg-primary/90 transition-colors"
             >
               Kembali ke Beranda
             </button>
@@ -177,7 +182,6 @@ function BookingPage() {
     );
   }
 
-  // --- TAMPILAN FORM ---
   return (
     <div className="min-h-screen flex flex-col">
       <SiteHeader />
@@ -193,7 +197,7 @@ function BookingPage() {
           className="max-w-5xl mx-auto px-6 grid md:grid-cols-[1fr_360px] gap-10"
         >
           <div className="space-y-10">
-            {/* 1. Pilih Kamar (HANYA BAGIAN INI TAMPILANNYA SAYA UBAH) */}
+            {/* 1. Pilih Kamar */}
             <div>
               <h2 className="font-serif text-2xl mb-4">Pilih Kamar</h2>
               <div className="grid sm:grid-cols-2 gap-4">
@@ -204,7 +208,6 @@ function BookingPage() {
                     onClick={() => setRoomId(r.id)}
                     className={`flex flex-col text-left border rounded-sm overflow-hidden transition-all group ${String(roomId) === String(r.id) ? "border-primary ring-1 ring-primary shadow-md" : "border-border hover:border-primary/50 hover:shadow-sm"}`}
                   >
-                    {/* Foto Kamar */}
                     <div className="h-40 w-full overflow-hidden relative bg-muted">
                       <img
                         src={r.image}
@@ -217,12 +220,8 @@ function BookingPage() {
                         </div>
                       )}
                     </div>
-
-                    {/* Info Kamar */}
                     <div className="p-5 flex-1 flex flex-col bg-card">
                       <div className="font-serif text-xl mb-3">{r.name}</div>
-
-                      {/* Detail Kasur & Kapasitas */}
                       <div className="space-y-2 mb-4">
                         <div className="flex gap-2.5 items-start">
                           <BedDouble size={16} className="text-muted-foreground shrink-0 mt-0.5" />
@@ -238,7 +237,6 @@ function BookingPage() {
                           <div className="text-sm font-medium">Maksimal {r.capacity} Orang</div>
                         </div>
                       </div>
-
                       <div className="mt-auto pt-4 border-t border-border">
                         <div className="font-serif text-lg text-primary">
                           {formatIDR(r.price)}{" "}
@@ -253,10 +251,9 @@ function BookingPage() {
               </div>
             </div>
 
-            {/* 2. Tanggal, Tamu & Jam (ASLI DARI ANDA) */}
+            {/* 2. Waktu & Tamu */}
             <div>
               <h2 className="font-serif text-2xl mb-4">Waktu & Tamu</h2>
-
               <div className="grid sm:grid-cols-3 gap-3">
                 <Field label="Check-in">
                   <input
@@ -303,7 +300,6 @@ function BookingPage() {
                     onChange={(e) => setJamCheckin(e.target.value)}
                   />
                 </label>
-
                 <label className="block">
                   <div className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1.5">
                     Jam Check-out
@@ -318,7 +314,7 @@ function BookingPage() {
               </div>
             </div>
 
-            {/* 3. Informasi Tamu (ASLI DARI ANDA) */}
+            {/* 3. Informasi Tamu */}
             <div>
               <h2 className="font-serif text-2xl mb-4">Informasi Tamu</h2>
               <div className="grid sm:grid-cols-2 gap-4">
@@ -350,7 +346,7 @@ function BookingPage() {
               </div>
             </div>
 
-            {/* 4. Metode Pembayaran (ASLI DARI ANDA) */}
+            {/* 4. Metode Pembayaran */}
             <div>
               <h2 className="font-serif text-2xl mb-4">Metode Pembayaran</h2>
               <div className="grid grid-cols-3 gap-3 mb-4">
@@ -394,7 +390,7 @@ function BookingPage() {
             </div>
           </div>
 
-          {/* SIDEBAR RINGKASAN (ASLI DARI ANDA) */}
+          {/* SIDEBAR RINGKASAN */}
           <aside className="md:sticky md:top-24 self-start bg-card border border-border p-6 rounded-sm space-y-4 shadow-[var(--shadow-soft)]">
             <div className="font-serif text-xl border-b border-border pb-4">{room.name}</div>
             <div className="text-sm space-y-2 text-foreground/80">
@@ -433,7 +429,6 @@ function BookingPage() {
   );
 }
 
-// Komponen Kecil untuk Input Label & Tombol Tab (ASLI DARI ANDA)
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">

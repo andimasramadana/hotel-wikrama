@@ -5,8 +5,7 @@ export const rooms = [
     name: "Deluxe King Room",
     price: 726188, // Harga diskon (harga saat ini)
     originalPrice: 1440000, // Harga coret
-    image:
-      "https://images.unsplash.com/photo-1611892440504-42a792e24d32?q=80&w=800&auto=format&fit=crop",
+    image: "https://i.pinimg.com/1200x/c5/7b/3c/c57b3cd14908c90fe35547fa051b9982.jpg",
     bed: "1 King Bed",
     capacity: 2,
     size: 32,
@@ -24,7 +23,7 @@ export const rooms = [
     price: 315360,
     originalPrice: 1314000,
     image:
-      "https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=800&auto=format&fit=crop",
+      "https://i.pinimg.com/1200x/e4/96/8d/e4968daeadbf214f26ffd1a8cb05b7bd.jpg",
     bed: "2 Single Bed",
     capacity: 2,
     size: 28,
@@ -43,7 +42,7 @@ export const rooms = [
     price: 513000,
     originalPrice: 1140000,
     image:
-      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=800&auto=format&fit=crop",
+      "https://i.pinimg.com/1200x/b5/89/eb/b589eb78bb2cb68b2087c3596006d0b2.jpg",
     bed: "1 King & 1 Bunk Bed",
     capacity: 4,
     size: 54,
