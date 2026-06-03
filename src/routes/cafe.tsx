@@ -4,7 +4,6 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { useState, useEffect } from "react";
 import { ShoppingBag, Landmark, Wallet, CreditCard, CheckCircle2 } from "lucide-react";
 import { formatIDR } from "@/lib/rooms";
-import { supabase } from "../supabaseClient";
 
 export const Route = createFileRoute("/cafe")({
   component: CafePage,
@@ -174,20 +173,13 @@ function CafePage() {
     setIsLoading(true);
 
     try {
-      const { error } = await supabase.from("pesanan_cafe").insert([
-        {
-          nama_pemesan: guestName,
-          nomor_kamar: roomNum,
-          pesanan: cart,
-          total_harga: total,
-          metode_pembayaran: selectedProvider,
-        },
-      ]);
-
-      if (error) throw error;
+      // Simulasi delay untuk realism
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
+      // Langsung set done tanpa menyimpan ke database
       setDone(true);
     } catch (err: any) {
-      alert("Gagal mengirim data: " + err.message);
+      alert("Gagal memproses pesanan: " + err.message);
     } finally {
       setIsLoading(false);
     }

@@ -5,7 +5,6 @@ import { rooms, formatIDR } from "@/lib/rooms";
 import { useMemo, useState } from "react";
 import { CheckCircle2, CreditCard, Landmark, Wallet, BedDouble, Users } from "lucide-react";
 import { z } from "zod";
-import { supabase } from "../supabaseClient";
 
 const search = z.object({ room: z.string().optional() });
 
@@ -106,32 +105,14 @@ function BookingPage() {
       paymentProvider === "card" ? "Kartu Kredit" : PAYMENT_PROVIDERS[paymentProvider].name;
 
     try {
-      const { error } = await supabase.from("reservasi").insert([
-        {
-          nama_lengkap: name,
-          email: email,
-          nomor_telepon: phone,
-          check_in: checkIn,
-          check_out: checkOut,
-          jam_checkin: jamCheckin,
-          jam_checkout: jamCheckout,
-          jumlah_tamu: guests,
-          kamar_id: room.id, 
-          total_harga: total,
-          metode_pembayaran: methodName,
-        },
-      ]);
-
-      if (error) {
-        // Jika error berasal dari database (misal tipe data salah atau RLS)
-        throw error;
-      }
+      // Simulasi delay untuk realism
+      await new Promise(resolve => setTimeout(resolve, 800));
       
+      // Generate booking code tanpa menyimpan ke database
       setSubmitted({ code: "WKR-" + Math.random().toString(36).slice(2, 8).toUpperCase() });
     } catch (error: any) {
-      // Menampilkan detail error di console browser untuk debugging lebih mudah
-      console.error("Detail Error Supabase:", error);
-      alert("Gagal mengirim data: " + error.message + ". Cek console browser untuk detail.");
+      console.error("Error:", error);
+      alert("Gagal memproses pesanan: " + error.message);
     } finally {
       setIsLoading(false);
     }

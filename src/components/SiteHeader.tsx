@@ -1,39 +1,14 @@
-import { Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { supabase } from "../supabaseClient";
-import { User, LogOut, Menu, X, Coffee, Heart } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { useState } from "react";
+import { Menu, X, Coffee, Heart } from "lucide-react";
 import { useFavorites } from "@/lib/useFavorites";
 import wikikamaLogo from "../assets/wikrama-logo.png";
 
 export function SiteHeader() {
-  const navigate = useNavigate();
-  const [user, setUser] = useState<any>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Panggil data favorit
   const { favorites } = useFavorites();
-
-  // Logika untuk memantau status login
-  useEffect(() => {
-    const getUser = async () => {
-      const { data } = await supabase.auth.getUser();
-      setUser(data.user);
-    };
-    getUser();
-
-    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => {
-      authListener.subscription.unsubscribe();
-    };
-  }, []);
-
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    navigate({ to: "/" });
-  };
 
   return (
     // Wrapper diubah menjadi floating dengan margin top dan padding kanan-kiri
@@ -110,17 +85,6 @@ export function SiteHeader() {
           >
             Pesan Sekarang
           </Link>
-
-          {/* Tampilkan tombol logout jika sudah login */}
-          {user && (
-            <button
-              onClick={handleLogout}
-              className="text-muted-foreground hover:text-red-500 p-2"
-              title="Logout"
-            >
-              <LogOut size={20} />
-            </button>
-          )}
         </div>
 
         {/* TOMBOL MENU MOBILE */}
@@ -170,26 +134,6 @@ export function SiteHeader() {
             </Link>
 
             <hr className="border-border/50" />
-
-            {!user ? (
-              <Link
-                to="/login"
-                onClick={() => setIsMenuOpen(false)}
-                className="text-lg font-serif flex items-center gap-2"
-              >
-                <User size={18} /> Login
-              </Link>
-            ) : (
-              <button
-                onClick={() => {
-                  handleLogout();
-                  setIsMenuOpen(false);
-                }}
-                className="text-lg font-serif flex items-center gap-2 text-left text-red-500"
-              >
-                <LogOut size={18} /> Logout
-              </button>
-            )}
 
             <Link
               to="/booking"
