@@ -209,7 +209,7 @@ function BookingPage() {
                           <div>
                             <div className="text-sm font-medium">{r.bed}</div>
                             <div className="text-[11px] text-muted-foreground leading-snug mt-0.5">
-                              {r.bedDesc}
+                              {r.size} m² · Maks. {r.capacity} tamu
                             </div>
                           </div>
                         </div>

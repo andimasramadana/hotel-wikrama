@@ -4,14 +4,9 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
-  HeadContent,
-  Scripts,
 } from "@tanstack/react-router";
-import { useState, useEffect } from "react"; // <-- Import hooks React
-import { LoadingScreen } from "../components/LoadingScreen"; // <-- Pastikan path ini sesuai dengan file kamu
-
-import appCss from "../styles.css?url";
-import faviconUrl from "../assets/wikrama-logo.png?url";
+import { useState, useEffect } from "react";
+import { LoadingScreen } from "../components/LoadingScreen";
 
 function NotFoundComponent() {
   return (
@@ -71,51 +66,10 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
-    meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Wikrama Hotel" }, // <-- Title saya update biar lebih pas
-      { name: "description", content: "Penginapan elegan di Bogor" },
-      { name: "author", content: "Wikrama" },
-      { property: "og:title", content: "Wikrama Hotel" },
-      { property: "og:description", content: "Penginapan elegan di Bogor" },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Wikrama" },
-    ],
-    links: [
-      {
-        rel: "icon",
-        href: faviconUrl,
-      },
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
-    ],
-  }),
-  shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
   errorComponent: ErrorComponent,
 });
-
-function RootShell({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="id">
-      {" "}
-      {/* <-- Diubah jadi 'id' kalau defaultnya bahasa Indonesia */}
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  );
-}
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
