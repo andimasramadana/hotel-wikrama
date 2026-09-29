@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  ScrollRestoration,
 } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { LoadingScreen } from "../components/LoadingScreen";
@@ -86,6 +87,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <ScrollRestoration />
       {isLoading ? (
         <LoadingScreen />
       ) : (
