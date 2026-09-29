@@ -1,0 +1,173 @@
+import { Link, useLocation } from "@tanstack/react-router";
+import { useState, useEffect } from "react";
+import { Menu, X, Coffee, Heart } from "lucide-react";
+import { useFavorites } from "@/lib/useFavorites";
+import wikikamaLogo from "../assets/wikrama-logo.png";
+
+export function SiteHeader() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+
+  // Panggil data favorit
+  const { favorites } = useFavorites();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const isHome = location.pathname === "/";
+  const isTransparent = isHome && !scrolled;
+
+  const textColorClass = isTransparent ? "text-white" : "text-foreground";
+  const textMutedClass = isTransparent ? "text-white/80 hover:text-white" : "text-foreground/70 hover:text-primary";
+  const logoTextClass = isTransparent ? "text-white" : "text-foreground";
+  const logoSubTextClass = isTransparent ? "text-white/80" : "text-accent";
+
+  return (
+    // Wrapper diubah menjadi floating dengan margin top dan padding kanan-kiri
+    // Tambahkan animasi slide-down dan fade-in saat pertama kali dimuat
+    <header className={`fixed top-4 md:top-6 left-0 right-0 z-50 px-4 md:px-8 w-full flex justify-center transition-all duration-300 animate-in slide-in-from-top-8 fade-in duration-700 fill-mode-both`}>
+      
+      {/* Inner container dibuat melengkung (rounded-full) dan blur (glassmorphism) */}
+      <div className={`relative w-full max-w-6xl h-16 md:h-[72px] px-6 flex items-center justify-between transition-all duration-500 rounded-full ${
+        !isTransparent 
+          ? "bg-background/70 backdrop-blur-xl border border-border/50 shadow-[0_8px_32px_0_rgba(0,0,0,0.1)] translate-y-1" 
+          : "bg-transparent border-transparent shadow-none translate-y-0"
+      }`}>
+        
+        {/* LOGO AREA */}
+        <Link to="/" className="flex items-center gap-3 group">
+          <img src={wikikamaLogo} alt="Wikrama Logo" className="w-9 h-9 md:w-10 md:h-10 object-contain drop-shadow-sm group-hover:scale-105 transition-transform" />
+          <div className="hidden sm:block">
+            <div className={`font-serif text-lg md:text-xl leading-none transition-colors ${logoTextClass}`}>Wikrama Hotel</div>
+            <div className={`text-[9px] md:text-[10px] uppercase tracking-[0.2em] mt-1 transition-colors ${logoSubTextClass}`}>Bogor</div>
+          </div>
+        </Link>
+
+        {/* --- 1. DESKTOP NAVIGATION (Laptop/PC) --- */}
+        <nav className="hidden md:flex items-center gap-8">
+          <Link
+            to="/"
+            className={`text-sm font-medium transition-colors ${textMutedClass} [&.active]:text-primary`}
+          >
+            Beranda
+          </Link>
+          <Link
+            to="/rooms"
+            className={`text-sm font-medium transition-colors ${textMutedClass} [&.active]:text-primary`}
+          >
+            Kamar
+          </Link>
+
+          {/* MENU CAFE */}
+          <Link
+            to="/cafe"
+            className={`text-sm font-medium transition-colors ${textMutedClass} [&.active]:text-primary flex items-center gap-1`}
+          >
+            Cafe
+          </Link>
+
+          <Link
+            to="/about"
+            className={`text-sm font-medium transition-colors ${textMutedClass} [&.active]:text-primary`}
+          >
+            Tentang
+          </Link>
+          <Link
+            to="/contact"
+            className={`text-sm font-medium transition-colors ${textMutedClass} [&.active]:text-primary`}
+          >
+            Kontak
+          </Link>
+
+          {/* TOMBOL FAVORIT (DESKTOP) */}
+          <Link
+            to="/favorites"
+            className={`relative p-2 transition-colors group ${textMutedClass}`}
+            title="Kamar Tersimpan"
+          >
+            <Heart className="w-5 h-5 transition-all group-hover:fill-red-500/20" />
+            {favorites.length > 0 && (
+              <span className="absolute top-0 right-0 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center animate-in zoom-in">
+                {favorites.length}
+              </span>
+            )}
+          </Link>
+        </nav>
+
+        {/* AUTH & BUTTON AREA */}
+        <div className="hidden md:flex items-center gap-4 lg:gap-6">
+          <Link
+            to="/booking"
+            className="px-5 py-2.5 bg-primary text-primary-foreground text-sm font-medium rounded-full hover:bg-primary/90 transition-colors shadow-sm"
+          >
+            Pesan Sekarang
+          </Link>
+        </div>
+
+        {/* TOMBOL MENU MOBILE */}
+        <button className={`md:hidden p-2 transition-colors ${textColorClass}`} onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+
+        {/* --- 2. MOBILE NAVIGATION (Tampilan HP) --- */}
+        {isMenuOpen && (
+          <div className="md:hidden absolute top-full mt-4 left-0 w-full bg-background/95 backdrop-blur-2xl border border-border/50 p-6 flex flex-col gap-5 animate-in fade-in slide-in-from-top-4 shadow-2xl rounded-3xl">
+            <Link to="/" onClick={() => setIsMenuOpen(false)} className="text-lg font-serif">
+              Beranda
+            </Link>
+            <Link to="/rooms" onClick={() => setIsMenuOpen(false)} className="text-lg font-serif">
+              Kamar
+            </Link>
+
+            {/* MENU CAFE MOBILE */}
+            <Link
+              to="/cafe"
+              onClick={() => setIsMenuOpen(false)}
+              className="text-lg font-serif flex items-center gap-2"
+            >
+              Cafe & Resto <Coffee size={16} className="text-orange-500" />
+            </Link>
+
+            <Link to="/about" onClick={() => setIsMenuOpen(false)} className="text-lg font-serif">
+              Tentang
+            </Link>
+            <Link to="/contact" onClick={() => setIsMenuOpen(false)} className="text-lg font-serif">
+              Kontak
+            </Link>
+
+            {/* TOMBOL FAVORIT (MOBILE) */}
+            <Link
+              to="/favorites"
+              onClick={() => setIsMenuOpen(false)}
+              className="text-lg font-serif flex items-center gap-2 text-red-500"
+            >
+              Favorit Tersimpan
+              <Heart size={18} className="fill-red-500" />
+              {favorites.length > 0 && (
+                <span className="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                  {favorites.length}
+                </span>
+              )}
+            </Link>
+
+            <hr className="border-border/50" />
+
+            <Link
+              to="/booking"
+              onClick={() => setIsMenuOpen(false)}
+              className="w-full py-3 mt-2 bg-primary text-primary-foreground text-center rounded-full font-medium shadow-sm"
+            >
+              Pesan Sekarang
+            </Link>
+          </div>
+        )}
+      </div>
+    </header>
+  );
+}
