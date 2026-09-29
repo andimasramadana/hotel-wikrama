@@ -6,7 +6,8 @@ import { useFavorites } from "@/lib/useFavorites"; // <-- Import Hook Favorit
 import heroImg from "@/assets/hero-hotel.jpg";
 import { Wifi, Coffee, Utensils, Waves, Car, ShieldCheck, Star, Heart, MapPin } from "lucide-react";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/")(
+{
   head: () => ({
     meta: [{ title: "Wikrama Hotel Bogor — Penginapan Elegan di Kota Bogor" }],
   }),

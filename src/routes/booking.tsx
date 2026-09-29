@@ -73,7 +73,7 @@ const PAYMENT_PROVIDERS: Record<
     name: "ShopeePay",
     category: "ewallet",
     number: "0812-3456-7890",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/f/fe/Shopee.svg", // Shopee logo approx
+    logo: "https://upload.wikimedia.org/wikipedia/commons/f/fe/Shopee.svg",
   },
   linkaja: {
     name: "LinkAja",

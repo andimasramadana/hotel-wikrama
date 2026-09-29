@@ -31,7 +31,7 @@ export function SiteHeader() {
   return (
     // Wrapper diubah menjadi floating dengan margin top dan padding kanan-kiri
     // Tambahkan animasi slide-down dan fade-in saat pertama kali dimuat
-    <header className={`fixed top-4 md:top-6 left-0 right-0 z-50 px-4 md:px-8 w-full flex justify-center transition-all duration-300 animate-in slide-in-from-top-8 fade-in duration-700 fill-mode-both`}>
+    <header className="fixed top-4 md:top-6 left-0 right-0 z-50 px-4 md:px-8 w-full flex justify-center transition-all duration-300 animate-in slide-in-from-top-8 fade-in duration-700 fill-mode-both">
       
       {/* Inner container dibuat melengkung (rounded-full) dan blur (glassmorphism) */}
       <div className={`relative w-full max-w-6xl h-16 md:h-[72px] px-6 flex items-center justify-between transition-all duration-500 rounded-full ${

@@ -374,8 +374,7 @@ function CafePage() {
                     <img
                       src={provider.logo}
                       alt={provider.name}
-                      className="max-h-full max-w-[80%] object-contain grayscale hover:grayscale-0 transition-all"
-                      style={selectedProvider === provider.name ? { filter: "none" } : {}}
+                      className="max-h-full max-w-[80%] object-contain transition-all"
                     />
                   </label>
                 ))}
